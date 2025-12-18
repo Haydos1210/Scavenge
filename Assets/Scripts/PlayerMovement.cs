@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float walkSpeed = 3f;
 
     [Header("References")]
     private CharacterController characterController;
@@ -11,14 +11,19 @@ public class PlayerMovement : MonoBehaviour
     [Header("Input")]
     private float hInput;
     private float vInput;
+
+    [Header("Vars")]
+    [SerializeField] private Transform orientation;
+    private Vector3 newPos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         UpdateInput();
         UpdateMovement();
@@ -26,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateMovement()
     {
-        Vector3 newPos = new Vector3(hInput, 0, vInput);
+        newPos = orientation.forward * vInput + orientation.right * hInput;
         characterController.Move(newPos * Time.deltaTime * walkSpeed);
     }
 
