@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerCam : MonoBehaviour
+public class CamController : MonoBehaviour
 {
     [Header("CamSettings")]
     private float sensX = 400;
