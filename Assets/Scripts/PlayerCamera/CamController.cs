@@ -36,7 +36,7 @@ public class CamController : MonoBehaviour
 
     void UpdateInput()
     {
-        mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        //mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+        //mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
     }
 }

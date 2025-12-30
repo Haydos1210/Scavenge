@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,9 +7,11 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     private PlayerControls playerControls;
     private InputAction move, sprint, jump, look;
+    private bool isSprinting;
     void Awake()
     {
         playerControls = new PlayerControls();
+
         //move = InputSystem.actions.FindAction("Move");
         //look = InputSystem.actions.FindAction("Look");
         //jump = InputSystem.actions.FindAction("Jump");
@@ -26,6 +29,17 @@ public class InputHandler : MonoBehaviour
         jump = playerControls.Player.Jump;
         jump.Enable();
         jump.performed += OnJumpPerformed;
+
+        sprint = playerControls.Player.Sprint;
+        sprint.Enable();
+        sprint.started += ctx => SetSprinting(true);
+        sprint.canceled += ctx => SetSprinting(false);
+    }
+
+    private void SetSprinting(bool value)
+    {
+        isSprinting = value;
+        //Debug.Log("Sprinting: " + isSprinting);
     }
 
     void OnDisable()
@@ -33,13 +47,31 @@ public class InputHandler : MonoBehaviour
         move.Disable();
         look.Disable();
         jump.Disable();
+        sprint.Disable();
     }
+
+    //private void StartSprint(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Sprinting");
+    //    isSprinting = true;
+    //}
+
+    //private void CancelSprint(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Not Sprinting");
+    //    isSprinting = false;
+    //}
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(sprint.IsPressed());
+        //if (Keyboard.current.leftShiftKey.wasReleasedThisFrame) Debug.Log("Shift released");
+        //Debug.Log(Keyboard.current.leftShiftKey.isPressed);
+
+        //bool isSprinting = sprint.ReadValue<float>() > 0f ? true : false;
         Vector2 moveVector = move.ReadValue<Vector2>();
-        playerController.MovePlayer(moveVector);
+        playerController.MovePlayer(moveVector, isSprinting);
 
         Vector2 lookVector = look.ReadValue<Vector2>();
         playerController.RotatePlayer(lookVector);
@@ -60,4 +92,5 @@ public class InputHandler : MonoBehaviour
     {
         playerController.Jump();
     }
+
 }
