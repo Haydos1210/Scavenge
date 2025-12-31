@@ -36,18 +36,23 @@ public class InputHandler : MonoBehaviour
         sprint.canceled += ctx => SetSprinting(false);
     }
 
-    private void SetSprinting(bool value)
-    {
-        isSprinting = value;
-        //Debug.Log("Sprinting: " + isSprinting);
-    }
-
     void OnDisable()
     {
         move.Disable();
         look.Disable();
         jump.Disable();
         sprint.Disable();
+    }
+
+    private void SetSprinting(bool value)
+    {
+        isSprinting = value;
+        //Debug.Log("Sprinting: " + isSprinting);
+    }
+
+    void OnJumpPerformed(InputAction.CallbackContext context)
+    {
+        playerController.Jump();
     }
 
     //private void StartSprint(InputAction.CallbackContext context)
@@ -70,11 +75,11 @@ public class InputHandler : MonoBehaviour
         //Debug.Log(Keyboard.current.leftShiftKey.isPressed);
 
         //bool isSprinting = sprint.ReadValue<float>() > 0f ? true : false;
-        Vector2 moveVector = move.ReadValue<Vector2>();
-        playerController.MovePlayer(moveVector, isSprinting);
+        Vector2 moveInput = move.ReadValue<Vector2>();
+        playerController.MovePlayer(moveInput, isSprinting);
 
-        Vector2 lookVector = look.ReadValue<Vector2>();
-        playerController.RotatePlayer(lookVector);
+        Vector2 lookInput = look.ReadValue<Vector2>();
+        playerController.RotatePlayer(lookInput);
 
         //bool isSprinting = sprint.ReadValue<float>() > 0.5f;
         //if (isSprinting)
@@ -88,9 +93,9 @@ public class InputHandler : MonoBehaviour
         //playerController.Sprint(isSprinting);
     }
 
-    void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        playerController.Jump();
-    }
+    //void HandleMovement()
+    //{
+
+    //}
 
 }

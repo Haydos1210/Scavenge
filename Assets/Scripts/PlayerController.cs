@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 1f, sprintSpeed = 6f, rotationSpeed = 5f, jumpForce = 5f, gravity = -40f;
+    [SerializeField] private float walkSpeed = 3f, rotationSpeed = 5f, jumpForce = 5f, gravity = -40f;
 
     [Header("References")]
     private CharacterController characterController;
@@ -13,12 +13,11 @@ public class PlayerController : MonoBehaviour
     private float rotation;
     private Vector3 newPos;
     private float vertVelocity;
-    private float currSpeed;
+    private float sprintMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        currSpeed = walkSpeed;
     }
 
     public void MovePlayer(Vector2 moveVector, bool isSprinting)
@@ -26,15 +25,15 @@ public class PlayerController : MonoBehaviour
         if (isSprinting)
         {
             Debug.Log("Sprinting");
-            currSpeed = sprintSpeed;
+            sprintMultiplier = 2;
         }
         else
         {
             Debug.Log("Not Sprinting");
-            currSpeed = walkSpeed;
+            sprintMultiplier = 1;
         }
         newPos = orientation.forward * moveVector.y + orientation.right * moveVector.x;
-        newPos = newPos * Time.deltaTime * currSpeed;
+        newPos = newPos * Time.deltaTime * sprintMultiplier;
         characterController.Move(newPos);
 
         vertVelocity = vertVelocity + gravity * Time.deltaTime;
