@@ -4,10 +4,20 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
+    [Header("CamSettings")]
+    private float sensX = 1f;
+    private float sensY = 1f;
+
+    [Header("References")]
     [SerializeField] private PlayerController playerController;
+    [SerializeField] private CamController camController;
     private PlayerControls playerControls;
+
+    [Header("Vars")]
     private InputAction move, sprint, jump, look;
     private bool isSprinting;
+    private float rotationX;
+    private float rotationY;
     void Awake()
     {
         playerControls = new PlayerControls();
@@ -77,25 +87,19 @@ public class InputHandler : MonoBehaviour
         //bool isSprinting = sprint.ReadValue<float>() > 0f ? true : false;
         Vector2 moveInput = move.ReadValue<Vector2>();
         playerController.MovePlayer(moveInput, isSprinting);
+        HandleCamera();
 
-        Vector2 lookInput = look.ReadValue<Vector2>();
-        playerController.RotatePlayer(lookInput);
-
-        //bool isSprinting = sprint.ReadValue<float>() > 0.5f;
-        //if (isSprinting)
-        //{
-        //    Debug.Log(sprint.activeControl);
-        //    Debug.Log("Yes");
-        //} else
-        //{
-        //    Debug.Log("No");
-        //}
-        //playerController.Sprint(isSprinting);
+        
     }
 
-    //void HandleMovement()
-    //{
-
-    //}
-
+    void HandleCamera()
+    {
+        Vector2 lookInput = look.ReadValue<Vector2>();
+        playerController.RotatePlayer(lookInput);
+        rotationY += lookInput.x * sensX;
+        rotationX -= lookInput.y * sensY;
+        
+        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+        camController.RotateCamera(rotationX, rotationY);
+    }
 }

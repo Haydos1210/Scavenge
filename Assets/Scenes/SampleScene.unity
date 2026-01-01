@@ -804,7 +804,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   walkSpeed: 5
-  sprintSpeed: 6
   rotationSpeed: 5
   jumpForce: 10
   gravity: -30
@@ -985,6 +984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputHandler
   playerController: {fileID: 1018816588}
+  camController: {fileID: 247150273}
 --- !u!1 &1702458837
 GameObject:
   m_ObjectHideFlags: 0

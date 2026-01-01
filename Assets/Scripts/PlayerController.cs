@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 3f, rotationSpeed = 5f, jumpForce = 5f, gravity = -40f;
+    [SerializeField] private float walkSpeed = 1f, rotationSpeed = 5f, jumpForce = 5f, gravity = -40f;
 
     [Header("References")]
     private CharacterController characterController;
@@ -22,15 +22,16 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayer(Vector2 moveVector, bool isSprinting)
     {
+        Debug.Log("HELLO");
         if (isSprinting)
         {
             Debug.Log("Sprinting");
-            sprintMultiplier = 2;
+            sprintMultiplier = 4;
         }
         else
         {
             Debug.Log("Not Sprinting");
-            sprintMultiplier = 1;
+            sprintMultiplier = 2;
         }
         newPos = orientation.forward * moveVector.y + orientation.right * moveVector.x;
         newPos = newPos * Time.deltaTime * sprintMultiplier;
